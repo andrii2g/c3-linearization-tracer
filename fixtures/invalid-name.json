@@ -1,0 +1,9 @@
+{
+  "target": "bad name",
+  "classes": [
+    {
+      "name": "bad name",
+      "bases": []
+    }
+  ]
+}

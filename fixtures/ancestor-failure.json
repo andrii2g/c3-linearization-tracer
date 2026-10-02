@@ -1,0 +1,48 @@
+{
+  "target": "Child",
+  "classes": [
+    {
+      "name": "O",
+      "bases": []
+    },
+    {
+      "name": "X",
+      "bases": [
+        "O"
+      ]
+    },
+    {
+      "name": "Y",
+      "bases": [
+        "O"
+      ]
+    },
+    {
+      "name": "A",
+      "bases": [
+        "X",
+        "Y"
+      ]
+    },
+    {
+      "name": "B",
+      "bases": [
+        "Y",
+        "X"
+      ]
+    },
+    {
+      "name": "Z",
+      "bases": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "name": "Child",
+      "bases": [
+        "Z"
+      ]
+    }
+  ]
+}

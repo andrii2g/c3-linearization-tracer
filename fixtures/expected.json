@@ -1,0 +1,227 @@
+{
+  "schemaVersion": 1,
+  "cases": [
+    {
+      "file": "single-root.json",
+      "target": "O",
+      "status": "success",
+      "mro": [
+        "O"
+      ]
+    },
+    {
+      "file": "single-inheritance.json",
+      "target": "C",
+      "status": "success",
+      "mro": [
+        "C",
+        "B",
+        "A",
+        "O"
+      ]
+    },
+    {
+      "file": "diamond.json",
+      "target": "D",
+      "status": "success",
+      "mro": [
+        "D",
+        "A",
+        "B",
+        "O"
+      ]
+    },
+    {
+      "file": "diamond-reversed.json",
+      "target": "D",
+      "status": "success",
+      "mro": [
+        "D",
+        "B",
+        "A",
+        "O"
+      ]
+    },
+    {
+      "file": "forward-references.json",
+      "target": "D",
+      "status": "success",
+      "mro": [
+        "D",
+        "A",
+        "B",
+        "O"
+      ]
+    },
+    {
+      "file": "independent-roots.json",
+      "target": "D",
+      "status": "success",
+      "mro": [
+        "D",
+        "A",
+        "B"
+      ]
+    },
+    {
+      "file": "shared-ancestors.json",
+      "target": "F",
+      "status": "success",
+      "mro": [
+        "F",
+        "C",
+        "D",
+        "A",
+        "B",
+        "O"
+      ]
+    },
+    {
+      "file": "deeper-diamond.json",
+      "target": "G",
+      "status": "success",
+      "mro": [
+        "G",
+        "E",
+        "F",
+        "D",
+        "A",
+        "B",
+        "O"
+      ]
+    },
+    {
+      "file": "candidate-rejection.json",
+      "target": "Z",
+      "status": "success",
+      "mro": [
+        "Z",
+        "A",
+        "X",
+        "B",
+        "Y",
+        "O"
+      ]
+    },
+    {
+      "file": "redundant-base-valid.json",
+      "target": "C",
+      "status": "success",
+      "mro": [
+        "C",
+        "A",
+        "O"
+      ]
+    },
+    {
+      "file": "redundant-base-invalid.json",
+      "target": "C",
+      "status": "inconsistent",
+      "failingClass": "C",
+      "partialPrefix": [
+        "C"
+      ]
+    },
+    {
+      "file": "inconsistent-order.json",
+      "target": "Z",
+      "status": "inconsistent",
+      "failingClass": "Z",
+      "partialPrefix": [
+        "Z",
+        "A",
+        "B"
+      ]
+    },
+    {
+      "file": "ancestor-failure.json",
+      "target": "Child",
+      "status": "inconsistent",
+      "failingClass": "Z",
+      "partialPrefix": [
+        "Z",
+        "A",
+        "B"
+      ]
+    },
+    {
+      "file": "disconnected-inconsistency.json",
+      "target": "Safe",
+      "status": "success",
+      "mro": [
+        "Safe",
+        "O"
+      ]
+    },
+    {
+      "file": "case-sensitive.json",
+      "target": "D",
+      "status": "success",
+      "mro": [
+        "D",
+        "A",
+        "a"
+      ]
+    },
+    {
+      "file": "inheritance-cycle.json",
+      "target": "A",
+      "status": "invalidInput",
+      "diagnosticCode": "InheritanceCycle"
+    },
+    {
+      "file": "self-cycle.json",
+      "target": "A",
+      "status": "invalidInput",
+      "diagnosticCode": "InheritanceCycle"
+    },
+    {
+      "file": "disconnected-cycle.json",
+      "target": "O",
+      "status": "invalidInput",
+      "diagnosticCode": "InheritanceCycle"
+    },
+    {
+      "file": "missing-base.json",
+      "target": "A",
+      "status": "invalidInput",
+      "diagnosticCode": "MissingBase"
+    },
+    {
+      "file": "duplicate-base.json",
+      "target": "A",
+      "status": "invalidInput",
+      "diagnosticCode": "DuplicateBase"
+    },
+    {
+      "file": "duplicate-class.json",
+      "target": "O",
+      "status": "invalidInput",
+      "diagnosticCode": "DuplicateClass"
+    },
+    {
+      "file": "unknown-target.json",
+      "target": "Missing",
+      "status": "invalidInput",
+      "diagnosticCode": "UnknownTarget"
+    },
+    {
+      "file": "missing-target.json",
+      "target": null,
+      "status": "invalidInput",
+      "diagnosticCode": "MissingTarget"
+    },
+    {
+      "file": "invalid-name.json",
+      "target": "bad name",
+      "status": "invalidInput",
+      "diagnosticCode": "InvalidName"
+    },
+    {
+      "file": "empty-classes.json",
+      "target": "O",
+      "status": "invalidInput",
+      "diagnosticCode": "InvalidShape"
+    }
+  ]
+}

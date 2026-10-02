@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/C3Tracer.Core/C3Tracer.Core.csproj" />
+    <Project Path="src/C3Tracer.Cli/C3Tracer.Cli.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/C3Tracer.Tests/C3Tracer.Tests.csproj" />
+  </Folder>
+</Solution>

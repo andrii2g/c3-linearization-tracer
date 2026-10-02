@@ -1,0 +1,28 @@
+{
+  "target": "D",
+  "classes": [
+    {
+      "name": "D",
+      "bases": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "name": "B",
+      "bases": [
+        "O"
+      ]
+    },
+    {
+      "name": "O",
+      "bases": []
+    },
+    {
+      "name": "A",
+      "bases": [
+        "O"
+      ]
+    }
+  ]
+}

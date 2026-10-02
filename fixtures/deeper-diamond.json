@@ -1,0 +1,47 @@
+{
+  "target": "G",
+  "classes": [
+    {
+      "name": "O",
+      "bases": []
+    },
+    {
+      "name": "A",
+      "bases": [
+        "O"
+      ]
+    },
+    {
+      "name": "B",
+      "bases": [
+        "O"
+      ]
+    },
+    {
+      "name": "D",
+      "bases": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "name": "E",
+      "bases": [
+        "D"
+      ]
+    },
+    {
+      "name": "F",
+      "bases": [
+        "D"
+      ]
+    },
+    {
+      "name": "G",
+      "bases": [
+        "E",
+        "F"
+      ]
+    }
+  ]
+}
