@@ -1,2 +1,1 @@
-Console.Error.WriteLine("Implementation kit: follow CODEX_IMPLEMENTATION.md to implement c3-tracer.");
-return 1;
+return await C3Tracer.Cli.Commands.CliApplication.RunAsync(args, Console.Out, Console.Error);

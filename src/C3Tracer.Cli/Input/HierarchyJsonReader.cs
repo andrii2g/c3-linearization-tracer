@@ -88,7 +88,7 @@ public static class HierarchyJsonReader
                     }
                 }
             }
-            return errors.Count > 0 ? new(null, GraphValidator.Order(errors)) : new(new(target, new(classes.ToImmutable())), []);
+            return errors.Count > 0 ? new(null, GraphValidator.Order(errors), target) : new(new(target, new(classes.ToImmutable())), [], target);
         }
         catch (DecoderFallbackException) { return Error("InvalidJson", "Input is not valid UTF-8."); }
         catch (JsonException)
