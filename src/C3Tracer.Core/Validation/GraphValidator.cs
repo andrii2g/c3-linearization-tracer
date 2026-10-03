@@ -11,13 +11,16 @@ public static class GraphValidator
         && (char.IsAsciiLetter(name[0]) || name[0] == '_')
         && name.All(c => char.IsAsciiLetterOrDigit(c) || c is '_' or '.' or '-');
 
-    public static ValidationResult Validate(Hierarchy hierarchy)
+    public static ValidationResult Validate(Hierarchy hierarchy) => Validate(hierarchy, []);
+
+    // Boundary diagnostics join the structural stage before any traversal.
+    public static ValidationResult Validate(Hierarchy hierarchy, ImmutableArray<Diagnostic> structuralDiagnostics)
     {
-        var errors = new List<Diagnostic>();
+        var errors = structuralDiagnostics.ToList();
         if (hierarchy.Classes.IsDefaultOrEmpty)
-            return new(null, [new("InvalidShape", "classes must be a nonempty array.", "/classes")]);
+            return new(null, Order(errors.Append(new("InvalidShape", "classes must be a nonempty array.", "/classes"))));
         if (hierarchy.Classes.Length > MaxClasses)
-            return new(null, [new("LimitExceeded", "At most 256 classes are allowed.", "/classes")]);
+            return new(null, Order(errors.Append(new("LimitExceeded", "At most 256 classes are allowed.", "/classes"))));
         var names = new HashSet<string>(StringComparer.Ordinal);
         long edges = 0;
         for (int i = 0; i < hierarchy.Classes.Length; i++)

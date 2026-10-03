@@ -7,6 +7,22 @@ namespace C3Tracer.Tests;
 public class TraceTests
 {
     [Fact]
+    public void RepeatedHeadsAreExaminedSeparatelyAndEveryTailBlockerIsRetained()
+    {
+        var hierarchy = TestPaths.Hierarchy(("O", []), ("X", ["O"]), ("Y", ["O"]),
+            ("A", ["X", "Y"]), ("B", ["X", "Y"]), ("C", ["Y", "X"]), ("Z", ["A", "B", "C"]));
+        var graph = Assert.IsType<C3Tracer.Core.Model.ValidatedGraph>(C3Tracer.Core.Validation.GraphValidator.Validate(hierarchy).Graph);
+        var result = C3Linearizer.Linearize(graph, "Z", new());
+        var failure = Assert.IsType<C3Tracer.Core.Diagnostics.MergeFailure>(result.Failure);
+        Assert.Equal(new[] { "X", "X", "Y" }, failure.BlockedCandidates.Select(c => c.Candidate));
+        Assert.Equal(new[] { "base:0", "base:1" }, failure.BlockedCandidates[^1].Blockers.Select(b => b.SequenceId));
+        ConflictTests.Verify(failure);
+        var events = result.RetainedEvents.OfType<CandidateExamined>().Where(e => e.ClassName == "Z").ToArray();
+        int finalStep = events.Max(e => e.MergeStep);
+        Assert.Equal(failure.BlockedCandidates.Select(c => c.SourceSequenceId), events.Where(e => e.MergeStep == finalStep).Select(e => e.SourceSequenceId));
+    }
+
+    [Fact]
     public void DiamondMatchesHandwrittenTraceAndSnapshotsDoNotChange()
     {
         var result = C3Linearizer.Linearize(TestPaths.Graph("diamond.json"), "D", new());

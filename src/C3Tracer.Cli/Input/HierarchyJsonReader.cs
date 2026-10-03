@@ -47,7 +47,6 @@ public static class HierarchyJsonReader
                 else
                 {
                     target = t.GetString();
-                    if (!GraphValidator.IsName(target)) errors.Add(new("InvalidName", "Invalid target name.", "/target"));
                 }
             }
             var classes = ImmutableArray.CreateBuilder<ClassDefinition>();

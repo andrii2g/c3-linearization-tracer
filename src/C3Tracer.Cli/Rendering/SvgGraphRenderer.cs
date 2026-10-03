@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using System.Globalization;
 using System.Xml.Linq;
 using C3Tracer.Cli.Reporting;
@@ -25,9 +26,24 @@ public static class SvgGraphRenderer
             new XElement(Ns + "path", new XAttribute("d", "M 0 0 L 10 5 L 0 10 z"), new XAttribute("fill", "#52677d")))));
         var background = new XElement(Ns + "rect", new XAttribute("width", "100%"), new XAttribute("height", "100%"), new XAttribute("fill", "#f7fafc"));
         root.Add(background);
-        Text(root, 24, 30, report.Status == "invalidInput" ? "Invalid input" : $"Target: {report.Target} | {(report.Status == "success" ? "C3 success" : "No C3 linearization")}", "#172e45", "18");
-        Text(root, 24, 57, "Inheritance: derived -> base (upward); edge labels = declared base position.", "#52677d");
-        double y = 90;
+        string heading = report.Status == "invalidInput" ? "Invalid input" : $"Target: {report.Target} | {(report.Status == "success" ? "C3 success" : "No C3 linearization")}";
+        double headerY = 30;
+        foreach (string line in Wrap(heading, (int)((width - 48) / 11)))
+        {
+            Text(root, 24, headerY, line, "#172e45", "18");
+            headerY += 24;
+        }
+        foreach (string line in Wrap("Inheritance: derived -> base (upward); edge labels = declared base position.", (int)((width - 48) / 9)))
+        {
+            Text(root, 24, headerY + 3, line, "#52677d");
+            headerY += 22;
+        }
+        double offset = Math.Max(0, headerY + 10 - 96);
+        if (layout is not null && offset > 0)
+            layout = layout with { Bottom = layout.Bottom + offset,
+                Nodes = layout.Nodes.Select(b => b with { Y = b.Y + offset }).ToImmutableArray(),
+                Edges = layout.Edges.Select(e => e with { Y1 = e.Y1 + offset, Y2 = e.Y2 + offset }).ToImmutableArray() };
+        double y = headerY + 24;
         if (layout is not null)
         {
             foreach (var e in layout.Edges)
@@ -49,7 +65,7 @@ public static class SvgGraphRenderer
                     new XAttribute("height", "44"), new XAttribute("rx", "7"), new XAttribute("fill", failed ? "#fff0ef" : isTarget ? "#d6eaff" : "#e4f3ef"),
                     new XAttribute("stroke", failed ? "#b42318" : isTarget ? "#245c9c" : "#357363"), new XAttribute("stroke-width", isTarget || failed ? "2.5" : "1.5")));
                 Text(group, b.X + b.Width / 2, b.Y + 27, b.Class.Name, "#172e45", anchor: "middle");
-                if (position >= 0) Text(group, b.X + b.Width - 4, b.Y - 8, "#" + (position + 1).ToString(CultureInfo.InvariantCulture), "#245c9c", "12", "end");
+                if (position >= 0) Text(group, b.X + b.Width - 6, b.Y + 12, "#" + (position + 1).ToString(CultureInfo.InvariantCulture), "#245c9c", "10", "end");
                 if (failed) Text(group, b.X + b.Width / 2, b.Y + 61, "FAILING CLASS", "#b42318", "12", "middle");
                 root.Add(group);
             }

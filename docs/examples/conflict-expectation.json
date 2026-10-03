@@ -1,0 +1,57 @@
+{
+  "note": "Handwritten semantic expectation, not a generated v1 report.",
+  "target": "Z",
+  "mro": null,
+  "failingClass": "Z",
+  "partialPrefix": [
+    "Z",
+    "A",
+    "B"
+  ],
+  "remainingSequences": [
+    {
+      "id": "base:0",
+      "items": [
+        "X",
+        "Y",
+        "O"
+      ],
+      "originalCursor": 1
+    },
+    {
+      "id": "base:1",
+      "items": [
+        "Y",
+        "X",
+        "O"
+      ],
+      "originalCursor": 1
+    },
+    {
+      "id": "direct",
+      "items": [],
+      "originalCursor": 2
+    }
+  ],
+  "witnessCycle": [
+    "X",
+    "Y",
+    "X"
+  ],
+  "witnessEdges": [
+    {
+      "before": "X",
+      "after": "Y",
+      "sequenceId": "base:0",
+      "beforeIndex": 1,
+      "afterIndex": 2
+    },
+    {
+      "before": "Y",
+      "after": "X",
+      "sequenceId": "base:1",
+      "beforeIndex": 1,
+      "afterIndex": 2
+    }
+  ]
+}

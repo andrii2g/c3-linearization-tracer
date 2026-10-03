@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 using System.Xml.Linq;
@@ -68,6 +69,21 @@ public class CliTests
         Assert.Equal(2, (await Run("validate", TestPaths.Fixture("unknown-target.json"))).Exit);
         Assert.Equal(0, (await Run("validate", TestPaths.Fixture("inconsistent-order.json"))).Exit);
         Assert.Equal(2, (await Run("trace", TestPaths.Fixture("diamond.json"), "--target", "bad name")).Exit);
+    }
+
+    [Fact]
+    public async Task StructuralDiagnosticsIncludeTargetSyntaxBeforeCycleTraversal()
+    {
+        using var temp = new TempDirectory();
+        string path = temp.File("invalid.json"), json = temp.File("report.json");
+        File.WriteAllText(path, """{"target":"bad target","classes":[{"name":"bad class","bases":["Missing"]},{"name":"Cycle","bases":["Cycle"]}]}""");
+        var r = await Run("trace", path, "--target", "Cycle", "--json", json);
+        Assert.Equal(2, r.Exit);
+        using var report = JsonDocument.Parse(File.ReadAllText(json));
+        var diagnostics = report.RootElement.GetProperty("diagnostics").EnumerateArray().ToArray();
+        Assert.Equal(new[] { "MissingBase", "InvalidName", "InvalidName" }, diagnostics.Select(d => d.GetProperty("code").GetString()));
+        Assert.Equal(new[] { "/classes/0/bases/0", "/classes/0/name", "/target" }, diagnostics.Select(d => d.GetProperty("jsonPointer").GetString()));
+        Assert.DoesNotContain(diagnostics, d => d.GetProperty("code").GetString() == "InheritanceCycle");
     }
 
     [Theory]
@@ -157,20 +173,35 @@ public class CliTests
     }
 
     [Fact]
-    public void SymlinkAliasesAreRejectedWhereSupported()
+    public void FilesystemLinksAndDirectoryAliasesAreRejected()
     {
         using var temp = new TempDirectory();
         string input = temp.File("input.json"), link = temp.File("link.json");
         File.WriteAllText(input, "keep");
-        try { File.CreateSymbolicLink(link, input); }
-        catch (Exception e) when (e is UnauthorizedAccessException or PlatformNotSupportedException or IOException)
+        string real = temp.File("real"), alias = temp.File("alias");
+        Directory.CreateDirectory(real);
+        if (OperatingSystem.IsWindows())
         {
-            // Windows without Developer Mode cannot create links. Linux CI exercises this branch.
-            return;
+            // Junctions are directory links available without Windows symlink privileges.
+            var start = new ProcessStartInfo("cmd.exe") { UseShellExecute = false, CreateNoWindow = true, RedirectStandardOutput = true, RedirectStandardError = true };
+            foreach (string a in new[] { "/c", "mklink", "/J", alias, real }) start.ArgumentList.Add(a);
+            using var process = Assert.IsType<Process>(Process.Start(start));
+            Assert.True(process.WaitForExit(10000));
+            Assert.Equal(0, process.ExitCode);
         }
-        Assert.Throws<IOException>(() => OutputWriter.Preflight(input, link, null, true));
-        Directory.CreateDirectory(temp.File("real"));
-        Directory.CreateSymbolicLink(temp.File("alias"), temp.File("real"));
-        Assert.Throws<IOException>(() => OutputWriter.Preflight(input, temp.File("real/out"), temp.File("alias/out"), true));
+        else
+        {
+            File.CreateSymbolicLink(link, input);
+            Assert.Throws<IOException>(() => OutputWriter.Preflight(input, link, null, true));
+            Directory.CreateSymbolicLink(alias, real);
+        }
+        try
+        {
+            Assert.Throws<IOException>(() => OutputWriter.Preflight(input, alias, null, true));
+            Assert.Throws<IOException>(() => OutputWriter.Preflight(input, temp.File("real/out"), temp.File("alias/out"), true));
+            File.WriteAllText(temp.File("real/input.json"), "keep");
+            Assert.Throws<IOException>(() => OutputWriter.Preflight(temp.File("real/input.json"), temp.File("alias/input.json"), null, true));
+        }
+        finally { Directory.Delete(alias); }
     }
 }

@@ -22,7 +22,13 @@ public class ConflictTests
             Assert.Equal(failing, failure.FailingClass);
             Assert.Equal(prefix.Split(','), failure.PartialPrefix);
             Verify(failure);
-            if (failing == "Z") Assert.Equal(new[] { "X", "Y", "X" }, failure.Witness.Cycle);
+            if (failing == "Z")
+            {
+                Assert.Equal(new[] { "X", "Y", "X" }, failure.Witness.Cycle);
+                Assert.Equal(new[] { 1, 1, 2 }, failure.RemainingSequences.Select(s => s.Cursor));
+                Assert.Equal(new[] { "X,Y,O", "Y,X,O", "" }, failure.RemainingSequences.Select(s => string.Join(",", s.Items.Skip(s.Cursor))));
+                Assert.Equal(new[] { new PrecedenceEdge("X", "Y", "base:0", 1, 2), new PrecedenceEdge("Y", "X", "base:1", 1, 2) }, failure.Witness.Edges);
+            }
         }
     }
 

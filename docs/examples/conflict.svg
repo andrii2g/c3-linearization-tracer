@@ -1,0 +1,69 @@
+<svg role="img" aria-labelledby="title description" font-family="ui-monospace, Consolas, monospace" font-size="14" viewBox="0 0 640 876" width="640" height="876" xmlns="http://www.w3.org/2000/svg">
+  <title id="title">C3 trace for Z</title>
+  <desc id="description">Inheritance arrows point from derived classes upward to bases. Numbers on edges preserve direct-base order. Precedence conflicts are reported separately.</desc>
+  <defs>
+    <marker id="base-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#52677d" />
+    </marker>
+  </defs>
+  <rect width="100%" height="100%" fill="#f7fafc" />
+  <text x="24" y="30" fill="#172e45" font-size="18" text-anchor="start">Target: Z | No C3 linearization</text>
+  <text x="24" y="57" fill="#52677d" font-size="14" text-anchor="start">Inheritance: derived -&gt; base (upward); edge labels = declared</text>
+  <text x="24" y="79" fill="#52677d" font-size="14" text-anchor="start">base position.</text>
+  <path class="inheritance-edge" data-derived="A" data-base="X" data-base-order="1" d="M 238 380 C 238 334 254 334 254 288" fill="none" stroke="#52677d" stroke-width="1.5" marker-end="url(#base-arrow)" />
+  <text x="243" y="370" fill="#52677d" font-size="14" text-anchor="start">1</text>
+  <path class="inheritance-edge" data-derived="A" data-base="Y" data-base-order="2" d="M 270 380 C 270 334 386 334 386 288" fill="none" stroke="#52677d" stroke-width="1.5" marker-end="url(#base-arrow)" />
+  <text x="275" y="370" fill="#52677d" font-size="14" text-anchor="start">2</text>
+  <path class="inheritance-edge" data-derived="B" data-base="Y" data-base-order="1" d="M 370 380 C 370 334 386 334 386 288" fill="none" stroke="#52677d" stroke-width="1.5" marker-end="url(#base-arrow)" />
+  <text x="375" y="370" fill="#52677d" font-size="14" text-anchor="start">1</text>
+  <path class="inheritance-edge" data-derived="B" data-base="X" data-base-order="2" d="M 402 380 C 402 334 254 334 254 288" fill="none" stroke="#52677d" stroke-width="1.5" marker-end="url(#base-arrow)" />
+  <text x="407" y="370" fill="#52677d" font-size="14" text-anchor="start">2</text>
+  <path class="inheritance-edge" data-derived="X" data-base="O" data-base-order="1" d="M 254 244 C 254 198 320 198 320 152" fill="none" stroke="#52677d" stroke-width="1.5" marker-end="url(#base-arrow)" />
+  <text x="259" y="234" fill="#52677d" font-size="14" text-anchor="start">1</text>
+  <path class="inheritance-edge" data-derived="Y" data-base="O" data-base-order="1" d="M 386 244 C 386 198 320 198 320 152" fill="none" stroke="#52677d" stroke-width="1.5" marker-end="url(#base-arrow)" />
+  <text x="391" y="234" fill="#52677d" font-size="14" text-anchor="start">1</text>
+  <path class="inheritance-edge" data-derived="Z" data-base="A" data-base-order="1" d="M 304 516 C 304 470 254 470 254 424" fill="none" stroke="#52677d" stroke-width="1.5" marker-end="url(#base-arrow)" />
+  <text x="309" y="506" fill="#52677d" font-size="14" text-anchor="start">1</text>
+  <path class="inheritance-edge" data-derived="Z" data-base="B" data-base-order="2" d="M 336 516 C 336 470 386 470 386 424" fill="none" stroke="#52677d" stroke-width="1.5" marker-end="url(#base-arrow)" />
+  <text x="341" y="506" fill="#52677d" font-size="14" text-anchor="start">2</text>
+  <g id="n2" class="graph-node" data-name="O">
+    <title>O; bases []</title>
+    <rect x="272" y="108" width="96" height="44" rx="7" fill="#e4f3ef" stroke="#357363" stroke-width="1.5" />
+    <text x="320" y="135" fill="#172e45" font-size="14" text-anchor="middle">O</text>
+  </g>
+  <g id="n3" class="graph-node" data-name="X">
+    <title>X; bases [O]</title>
+    <rect x="206" y="244" width="96" height="44" rx="7" fill="#e4f3ef" stroke="#357363" stroke-width="1.5" />
+    <text x="254" y="271" fill="#172e45" font-size="14" text-anchor="middle">X</text>
+  </g>
+  <g id="n4" class="graph-node" data-name="Y">
+    <title>Y; bases [O]</title>
+    <rect x="338" y="244" width="96" height="44" rx="7" fill="#e4f3ef" stroke="#357363" stroke-width="1.5" />
+    <text x="386" y="271" fill="#172e45" font-size="14" text-anchor="middle">Y</text>
+  </g>
+  <g id="n0" class="graph-node" data-name="A">
+    <title>A; bases [X, Y]</title>
+    <rect x="206" y="380" width="96" height="44" rx="7" fill="#e4f3ef" stroke="#357363" stroke-width="1.5" />
+    <text x="254" y="407" fill="#172e45" font-size="14" text-anchor="middle">A</text>
+  </g>
+  <g id="n1" class="graph-node" data-name="B">
+    <title>B; bases [Y, X]</title>
+    <rect x="338" y="380" width="96" height="44" rx="7" fill="#e4f3ef" stroke="#357363" stroke-width="1.5" />
+    <text x="386" y="407" fill="#172e45" font-size="14" text-anchor="middle">B</text>
+  </g>
+  <g id="n5" class="graph-node" data-name="Z">
+    <title>Z; bases [A, B]</title>
+    <rect x="272" y="516" width="96" height="44" rx="7" fill="#fff0ef" stroke="#b42318" stroke-width="2.5" />
+    <text x="320" y="543" fill="#172e45" font-size="14" text-anchor="middle">Z</text>
+    <text x="320" y="577" fill="#b42318" font-size="12" text-anchor="middle">FAILING CLASS</text>
+  </g>
+  <text x="32" y="616" fill="#b42318" font-size="14" text-anchor="start">No C3 linearization; failing class: Z</text>
+  <text x="32" y="638" fill="#172e45" font-size="14" text-anchor="start">Incomplete partial prefix: Z -&gt; A -&gt; B</text>
+  <text x="32" y="670" fill="#172e45" font-size="14" text-anchor="start">Remaining base:0: [X, Y, O]</text>
+  <text x="32" y="692" fill="#172e45" font-size="14" text-anchor="start">Remaining base:1: [Y, X, O]</text>
+  <text x="32" y="714" fill="#172e45" font-size="14" text-anchor="start">Remaining direct: []</text>
+  <text x="32" y="756" fill="#b42318" font-size="14" text-anchor="start">PRECEDENCE WITNESS (not inheritance arrows)</text>
+  <text x="32" y="778" fill="#172e45" font-size="14" text-anchor="start">Closed cycle: X -&gt; Y -&gt; X</text>
+  <text x="32" y="800" fill="#172e45" font-size="14" text-anchor="start">X -&gt; Y | base:0 | absolute positions 1 -&gt; 2</text>
+  <text x="32" y="822" fill="#172e45" font-size="14" text-anchor="start">Y -&gt; X | base:1 | absolute positions 1 -&gt; 2</text>
+</svg>

@@ -1,0 +1,22 @@
+Handwritten semantic expectation for D only; ancestor events omitted.
+
+Merge D:
+  base:0 = [A, O]
+  base:1 = [B, O]
+  direct = [A, B]
+
+Step 1 cursors [0,0,0]
+  A from base:0 accepted
+  cursors after [1,0,1], partial prefix [D,A]
+
+Step 2 cursors [1,0,1]
+  O from base:0 rejected
+    blocker base:1 absoluteIndex=1 remainingIndex=1
+  B from base:1 accepted
+  cursors after [1,1,2], partial prefix [D,A,B]
+
+Step 3 cursors [1,1,2]
+  O from base:0 accepted
+  cursors after [2,2,2], partial prefix [D,A,B,O]
+
+Complete target MRO: D A B O

@@ -33,13 +33,17 @@ public static class CliApplication
             ValidatedGraph? graph = null;
             if (input.Document is { } document)
             {
-                var validation = GraphValidator.Validate(document.Hierarchy);
+                var targetErrors = ImmutableArray.CreateBuilder<Diagnostic>();
+                if (document.Target is not null && !GraphValidator.IsName(document.Target))
+                    targetErrors.Add(new("InvalidName", "Invalid document target name.", "/target"));
+                if (options.Target is not null && !GraphValidator.IsName(options.Target))
+                    targetErrors.Add(new("InvalidName", "Invalid target override name.", "/target"));
+                var validation = GraphValidator.Validate(document.Hierarchy, targetErrors.ToImmutable());
                 diagnostics = validation.Diagnostics;
                 graph = validation.Graph;
                 if (graph is not null)
                 {
                     if (target is null && options.Command == "trace") diagnostics = [new("MissingTarget", "Trace requires a target.", "/target")];
-                    else if (target is not null && !GraphValidator.IsName(target)) diagnostics = [new("InvalidName", "Invalid target name.", "/target")];
                     else if (target is not null && !graph.ByName.ContainsKey(target)) diagnostics = [new("UnknownTarget", $"Target {target} is not declared.", "/target")];
                 }
             }
